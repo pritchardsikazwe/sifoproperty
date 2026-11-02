@@ -161,7 +161,7 @@ create policy "property owner adds first members" on public.organization_members
 );
 
 do $$ declare t text; begin
-  foreach t in array array['properties','property_units','property_tenants','property_leases','property_charges','property_payments','property_maintenance','property_expenses'] loop
+  foreach t in array array['properties','property_units','property_tenants','property_leases','property_charges','property_maintenance','property_expenses'] loop
     execute format('alter table public.%I enable row level security',t);
     execute format('create policy "org members manage %1$I" on public.%1$I for all using(public.is_property_member(organization_id)) with check(public.is_property_member(organization_id))',t);
   end loop;
@@ -172,3 +172,8 @@ create index if not exists property_leases_tenant_idx on public.property_leases(
 create index if not exists property_charges_due_idx on public.property_charges(organization_id,due_date,status);
 create index if not exists property_payments_date_idx on public.property_payments(organization_id,payment_date desc);
 create index if not exists property_maintenance_status_idx on public.property_maintenance(organization_id,status,priority);
+
+-- Receipts are append-only: corrections use a separately audited reversal.
+alter table public.property_payments enable row level security;
+create policy "property members read receipts" on public.property_payments for select using(public.is_property_member(organization_id));
+create policy "property members record receipts" on public.property_payments for insert with check(public.is_property_member(organization_id));
