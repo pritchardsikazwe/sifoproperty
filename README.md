@@ -2,25 +2,35 @@
 
 Independent property and rental management platform by Sifonet Technologies.
 
-## Product boundary
-SifoProperty is a standalone application and repository. It is separate from SifoBooks and SifoHotel, with its own deployment and, when configured, its own Supabase project.
-
-## Initial scope
-- Property portfolio and building records
-- Units, rooms and availability
-- Landlords, owners and tenants
-- Applications, leases and renewals
+## Product modules
+- Dashboard and property portfolio
+- Buildings, units, availability and rental rates
+- Owners, tenants and applications
+- Leases, renewals, deposits and contract dates
 - Rent schedules, invoices, receipts and arrears
-- Deposits and other tenant charges
-- Maintenance requests and work orders
+- Maintenance requests, inspections and work orders
 - Property expenses and owner statements
 - Occupancy, income and arrears reports
-- User roles, permissions and audit history
+- Roles, permissions and audit history
 
-## Development
-This repository starts with a React + TypeScript + Vite frontend shell. Backend credentials and Supabase integration are intentionally not configured yet.
+## Run locally
+Requires Node.js 20 or newer.
 
 ```bash
 npm install
 npm run dev
+npm run build
 ```
+
+## Current implementation status
+The repository contains an interactive React + TypeScript + Vite frontend foundation. Module navigation, searchable registers and add/edit/delete demo workflows are implemented. Demo changes are held in browser memory and are lost on refresh. No authentication, database, live tenant or financial records, payment integrations or production integrations are connected yet.
+
+## Planned production stages
+1. Product requirements and Zambia rental/property workflows
+2. Dedicated Supabase project, schema, migrations and row-level security
+3. Authentication, company tenancy, roles and audit trail
+4. Persistent property, unit, tenant, lease and payment workflows
+5. Maintenance, owner statements, reports, notifications and backups
+6. Automated tests, security review and deployment
+
+SifoProperty is independent from SifoBooks and SifoHotel. Never put production secrets in this repository.
